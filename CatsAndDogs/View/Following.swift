@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct Following: View {
+    private var userStorage = UserStorage()
+    
     var body: some View {
-        Text("Following!")
+        VStack{
+            let faves = userStorage.read()
+            if (faves.isEmpty){
+                Text("No Faves")
+                Spacer()
+                Text("0")
+            }
+            else{
+                List(faves, id: \.self) { fave in
+                    AsyncImage(url: URL(string:"https://picsum.photos/id/\(fave)/200/300"))
+                }
+                Text("\(faves.count)")
+            }
+        }
     }
 }
 

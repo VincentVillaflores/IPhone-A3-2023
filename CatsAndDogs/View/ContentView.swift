@@ -8,16 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var animationAmount = 1.0
-    
+    @State private var showLaunchAnimation: Bool = true
+
     var body: some View {
-        Text("Cats & Dogs")
-            .animation(.bouncy(duration: 10), value: animationAmount)
-            .onAppear{
-                animationAmount += 1
-            }
+        if showLaunchAnimation {
+            Launch()
+                .onAppear(perform: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        withAnimation {
+                            showLaunchAnimation = false
+                        }
+                    }
+                })
+        } else {
+            Home()
+        }
     }
 }
+
 
 #Preview {
     ContentView()
